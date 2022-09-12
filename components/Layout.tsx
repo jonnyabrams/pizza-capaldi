@@ -1,8 +1,16 @@
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
-const Layout = () => {
+type ComponentWithChildProps = React.PropsWithChildren<{ example?: string }>;
+
+const Layout = ({ children }: ComponentWithChildProps) => {
   return (
-    <div>Layout</div>
-  )
-}
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
+};
 
-export default Layout
+export default Layout;
