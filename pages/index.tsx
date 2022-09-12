@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Featured from "../components/Featured";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -11,7 +12,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Peter Capaldi's pizza pies" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      hey
+      <Featured />
     </div>
   );
 };
