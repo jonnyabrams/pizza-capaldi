@@ -7,9 +7,9 @@ const Featured = () => {
   const [index, setIndex] = useState(0);
 
   const images = [
-    "/img/featured.jpeg",
-    "/img/featured2.jpeg",
-    "/img/featured3.webp",
+    "/img/featured5.jpg",
+    "/img/featured4.jpg",
+    "/img/featured6.jpg",
   ];
 
   const handleArrow = (direction: string) => {
