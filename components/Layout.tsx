@@ -8,7 +8,7 @@ const Layout = ({ children }: ComponentWithChildProps) => {
     <>
       <Navbar />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
