@@ -12,6 +12,7 @@ interface IProps {
 const Product = ({ pizza }: IProps) => {
   const [size, setSize] = useState(0);
   const [price, setPrice] = useState(pizza.prices[0]);
+  const [quantity, setQuantity] = useState(1);
   const [extras, setExtras] = useState<IExtras[]>([]);
 
   const changePrice = (number: number) => {
@@ -78,7 +79,12 @@ const Product = ({ pizza }: IProps) => {
           ))}
         </div>
         <div className={styles.add}>
-          <input type="number" defaultValue={1} className={styles.quantity} />
+          <input
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+            type="number"
+            defaultValue={1}
+            className={styles.quantity}
+          />
           <button className={styles.button}>Add to Cart</button>
         </div>
       </div>
