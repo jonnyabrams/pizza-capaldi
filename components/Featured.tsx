@@ -21,8 +21,6 @@ const Featured = () => {
     }
   };
 
-  console.log(index)
-
   return (
     <div className={styles.container}>
       <div
@@ -32,7 +30,10 @@ const Featured = () => {
       >
         <Image src="/img/arrowl.png" layout="fill" alt="" objectFit="contain" />
       </div>
-      <div className={styles.wrapper} style={{transform: `translateX(${-100 * index}vw)`}}>
+      <div
+        className={styles.wrapper}
+        style={{ transform: `translateX(${-100 * index}vw)` }}
+      >
         {images.map((img, index) => (
           <div className={styles.imgContainer} key={index}>
             <Image src={img} alt="" layout="fill" objectFit="contain" />

@@ -23,7 +23,7 @@ const PizzaSchema = new mongoose.Schema(
     extraOptions: {
       type: [
         {
-          text: { type: String, required: true },
+          topping: { type: String, required: true },
           price: { type: Number, required: true },
         },
       ],
