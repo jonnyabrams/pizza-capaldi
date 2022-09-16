@@ -4,11 +4,13 @@ import { IPizza } from "../types";
 
 interface ProductState {
   products: IPizza[];
+  quantity: 0;
   total: number;
 }
 
 const initialState: ProductState = {
   products: [],
+  quantity: 0,
   total: 0,
 };
 
