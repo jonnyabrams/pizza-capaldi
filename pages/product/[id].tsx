@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 
 import styles from "../../styles/Product.module.css";
-import { IPizza } from "../../types";
+import { IPizza, IExtras } from "../../types";
 
 interface IProps {
   pizza: IPizza;
@@ -12,6 +12,7 @@ interface IProps {
 const Product = ({ pizza }: IProps) => {
   const [size, setSize] = useState(0);
   const [price, setPrice] = useState(pizza.prices[0]);
+  const [extras, setExtras] = useState<IExtras[]>([]);
 
   const changePrice = (number: number) => {
     setPrice(price + number);
@@ -23,16 +24,15 @@ const Product = ({ pizza }: IProps) => {
     changePrice(difference);
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    option: { topping: string; price: number }
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, option: IExtras) => {
     const checked = e.target.checked;
 
     if (checked) {
       changePrice(option.price);
+      setExtras((prev) => [...prev, option]);
     } else {
       changePrice(-option.price);
+      setExtras(extras.filter((extra) => extra._id !== option._id));
     }
   };
 
