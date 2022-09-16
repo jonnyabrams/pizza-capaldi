@@ -4,5 +4,5 @@ export interface IPizza {
   desc: string;
   img: string;
   prices: number[];
-  extraOptions?: { topping: string; price: number }[];
+  extraOptions?: { topping: string; price: number; _id: Types.ObjectId }[];
 }
