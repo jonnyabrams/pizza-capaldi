@@ -1,6 +1,6 @@
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import styles from "../../styles/Product.module.css";
 import { IPizza } from "../../types";
@@ -11,8 +11,30 @@ interface IProps {
 
 const Product = ({ pizza }: IProps) => {
   const [size, setSize] = useState(0);
+  const [price, setPrice] = useState(pizza.prices[0]);
 
-  console.log(pizza);
+  const changePrice = (number: number) => {
+    setPrice(price + number);
+  };
+
+  const handleSize = (sizeIndex: number) => {
+    const difference = pizza.prices[sizeIndex] - pizza.prices[size];
+    setSize(sizeIndex);
+    changePrice(difference);
+  };
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    option: { topping: string; price: number }
+  ) => {
+    const checked = e.target.checked;
+
+    if (checked) {
+      changePrice(option.price);
+    } else {
+      changePrice(-option.price);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -23,19 +45,19 @@ const Product = ({ pizza }: IProps) => {
       </div>
       <div className={styles.right}>
         <h1 className={styles.title}>{pizza.title}</h1>
-        <span className={styles.price}>£{pizza.prices[size].toFixed(2)}</span>
+        <span className={styles.price}>£{price.toFixed(2)}</span>
         <p className={styles.desc}>{pizza.desc}</p>
         <h3 className={styles.choose}>Choose size:</h3>
         <div className={styles.sizes}>
-          <div className={styles.size} onClick={() => setSize(0)}>
+          <div className={styles.size} onClick={() => handleSize(0)}>
             <Image src="/img/size.png" layout="fill" alt="" />
             <span className={styles.number}>Small</span>
           </div>
-          <div className={styles.size} onClick={() => setSize(1)}>
+          <div className={styles.size} onClick={() => handleSize(1)}>
             <Image src="/img/size.png" layout="fill" alt="" />
             <span className={styles.number}>Medium</span>
           </div>
-          <div className={styles.size} onClick={() => setSize(2)}>
+          <div className={styles.size} onClick={() => handleSize(2)}>
             <Image src="/img/size.png" layout="fill" alt="" />
             <span className={styles.number}>Large</span>
           </div>
@@ -46,11 +68,12 @@ const Product = ({ pizza }: IProps) => {
             <div className={styles.option} key={option._id}>
               <input
                 type="checkbox"
-                id="double"
-                name="double"
+                id={option.topping}
+                name={option.topping}
                 className={styles.checkbox}
+                onChange={(e) => handleChange(e, option)}
               />
-              <label htmlFor="double">{option.topping}</label>
+              <label htmlFor={option.topping}>{option.topping}</label>
             </div>
           ))}
         </div>
