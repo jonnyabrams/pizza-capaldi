@@ -1,16 +1,21 @@
 import Image from "next/image";
 
 import styles from "../styles/PizzaCard.module.css";
+import { IPizza } from "../types";
 
-const PizzaCard = () => {
-  return (
-    <div className={styles.container}>
-      <Image src="/img/pizza.png" alt="" height="500" width="500" />
-      <h1 className={styles.title}>PIZZA A LA CHEESE</h1>
-      <span className={styles.price}>£12.99</span>
-      <p className={styles.desc}>A pizza with like cheese and that</p>
-    </div>
-  )
+interface IProps {
+  pizza: IPizza;
 }
 
-export default PizzaCard
+const PizzaCard = ({ pizza }: IProps) => {
+  return (
+    <div className={styles.container}>
+      <Image src={pizza.img} alt="" height="500" width="500" />
+      <h1 className={styles.title}>{pizza.title}</h1>
+      <span className={styles.price}>${pizza.prices[0]}</span>
+      <p className={styles.desc}>{pizza.desc}</p>
+    </div>
+  );
+};
+
+export default PizzaCard;
