@@ -49,7 +49,6 @@ const Cart = () => {
       <>
         {showSpinner && isPending && <div className="spinner" />}
         <PayPalButtons
-          style={style}
           disabled={false}
           forceReRender={[amount, currency, style]}
           fundingSource={undefined}
@@ -71,8 +70,8 @@ const Cart = () => {
               });
           }}
           onApprove={function (data, actions) {
-            return actions.order.capture().then(function () {
-              // Your code here after capture the order
+            return actions.order?.capture().then(function (details) {
+              console.log(details);
             });
           }}
         />
@@ -93,6 +92,8 @@ const Cart = () => {
               <th>Quantity</th>
               <th>Total</th>
             </tr>
+          </tbody>
+          <tbody>
             {cart.products.map((product: CartPizza) => (
               <tr className={styles.tr} key={product._id}>
                 <td>
@@ -148,7 +149,8 @@ const Cart = () => {
               <button className={styles.payButton}>CASH ON DELIVERY</button>
               <PayPalScriptProvider
                 options={{
-                  "client-id": "test",
+                  "client-id":
+                    "ARzpVE4fXLfa_DhMEv4zaBrXHgiM5n_HHkOX8la9YiI6h93er2LWW9GZzS8jgQjkeYwbENKyBz15RS-K",
                   components: "buttons",
                   currency: "GBP",
                   "disable-funding": "credit,card,p24",
