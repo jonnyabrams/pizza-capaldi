@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   PayPalScriptProvider,
   PayPalButtons,
@@ -17,6 +17,7 @@ interface CartPizza extends IPizza {
 }
 
 const Cart = () => {
+  const [showPayPal, setShowPayPal] = useState(false);
   const amount = "2";
   const currency = "GBP";
   const style = { layout: "vertical" };
@@ -142,17 +143,28 @@ const Cart = () => {
             <b className={styles.totalTextTitle}>Total:</b>£
             {cart.total.toFixed(2)}
           </div>
-          <button className={styles.button}>CHECKOUT NOW!</button>
-          <PayPalScriptProvider
-            options={{
-              "client-id": "test",
-              components: "buttons",
-              currency: "GBP",
-              "disable-funding": "credit,card,p24",
-            }}
-          >
-            <ButtonWrapper currency={currency} showSpinner={false} />
-          </PayPalScriptProvider>
+          {showPayPal ? (
+            <div className={styles.paymentMethods}>
+              <button className={styles.payButton}>CASH ON DELIVERY</button>
+              <PayPalScriptProvider
+                options={{
+                  "client-id": "test",
+                  components: "buttons",
+                  currency: "GBP",
+                  "disable-funding": "credit,card,p24",
+                }}
+              >
+                <ButtonWrapper currency={currency} showSpinner={false} />
+              </PayPalScriptProvider>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowPayPal(true)}
+              className={styles.button}
+            >
+              CHECKOUT NOW!
+            </button>
+          )}
         </div>
       </div>
     </div>
