@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     query: { id },
   } = req;
 
-  dbConnect();
+  await dbConnect();
 
   if (method === "GET") {
     try {

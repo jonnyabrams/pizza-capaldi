@@ -2,6 +2,7 @@ import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { Toaster } from "react-hot-toast";
 
 import Featured from "../components/Featured";
 import PizzaList from "../components/PizzaList";
@@ -20,6 +21,7 @@ const Home: NextPage<IProps> = ({ pizzaList }: IProps) => {
         <meta name="description" content="Peter Capaldi's pizza pies" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Toaster position="top-center" reverseOrder={false} />
       <Featured />
       <PizzaList pizzaList={pizzaList} />
     </div>

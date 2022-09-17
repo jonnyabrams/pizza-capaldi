@@ -6,9 +6,12 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
+import { useRouter } from "next/router";
 
 import styles from "../styles/Cart.module.css";
 import { IPizza } from "../types";
+import axios from "axios";
+import { reset } from "../redux/cartSlice";
 
 interface CartPizza extends IPizza {
   extras?: { topping: string; price: number; _id: string }[];
@@ -17,12 +20,23 @@ interface CartPizza extends IPizza {
 }
 
 const Cart = () => {
+  const cart = useSelector((state: any) => state.cart);
   const [showPayPal, setShowPayPal] = useState(false);
-  const amount = "2";
+  const amount = cart.total;
   const currency = "GBP";
   const style = { layout: "vertical" };
   const dispatch = useDispatch();
-  const cart = useSelector((state: any) => state.cart);
+  const router = useRouter();
+
+  const createOrder = async (data: any) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/orders", data);
+      res.status === 201 && router.push("/order/" + res.data._id);
+      dispatch(reset());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const ButtonWrapper = ({
     currency,
@@ -71,7 +85,13 @@ const Cart = () => {
           }}
           onApprove={function (data, actions) {
             return actions.order?.capture().then(function (details) {
-              console.log(details);
+              const shipping = details.purchase_units[0].shipping;
+              createOrder({
+                customer: shipping?.name?.full_name,
+                address: shipping?.address?.address_line_1,
+                total: cart.total,
+                method: 1,
+              });
             });
           }}
         />

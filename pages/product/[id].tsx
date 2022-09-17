@@ -2,6 +2,7 @@ import axios from "axios";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import styles from "../../styles/Product.module.css";
 import { IPizza, IExtras } from "../../types";
@@ -41,7 +42,8 @@ const Product = ({ pizza }: IProps) => {
   };
 
   const handleClick = () => {
-    dispatch(addProduct({...pizza, extras, price, quantity}));
+    dispatch(addProduct({ ...pizza, extras, price, quantity }));
+    toast.success("Added to cart!");
   };
 
   return (
