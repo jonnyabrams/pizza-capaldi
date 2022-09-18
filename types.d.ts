@@ -7,7 +7,16 @@ export interface IPizza {
   extraOptions?: { topping: string; price: number; _id: Types.ObjectId }[];
 }
 
-interface IExtras {
+export interface IOrder {
+  _id: Types.ObjectId;
+  customer: string;
+  address: string;
+  total: number;
+  status: number;
+  method: number;
+}
+
+export interface IExtras {
   topping: string;
   price: number;
   _id: Types.ObjectId;

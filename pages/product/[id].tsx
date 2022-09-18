@@ -103,8 +103,6 @@ const Product = ({ pizza }: IProps) => {
   );
 };
 
-export default Product;
-
 export const getServerSideProps = async ({
   params: { id },
 }: {
@@ -117,3 +115,5 @@ export const getServerSideProps = async ({
     },
   };
 };
+
+export default Product;
