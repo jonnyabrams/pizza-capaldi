@@ -32,8 +32,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (method === "DELETE") {
     try {
-      const pizza = await Pizza.create(req.body);
-      res.status(201).json(pizza);
+      await Pizza.findByIdAndDelete(id);
+      res.status(201).json("Product deleted");
     } catch (error) {
       res.status(500).json(error);
     }
