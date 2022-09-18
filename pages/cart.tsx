@@ -12,6 +12,7 @@ import styles from "../styles/Cart.module.css";
 import { IPizza } from "../types";
 import axios from "axios";
 import { reset } from "../redux/cartSlice";
+import CashPayment from "../components/CashPayment";
 
 interface CartPizza extends IPizza {
   extras?: { topping: string; price: number; _id: string }[];
@@ -22,6 +23,7 @@ interface CartPizza extends IPizza {
 const Cart = () => {
   const cart = useSelector((state: any) => state.cart);
   const [showPayPal, setShowPayPal] = useState(false);
+  const [cashPayment, setCashPayment] = useState(false);
   const amount = cart.total;
   const currency = "GBP";
   const style = { layout: "vertical" };
@@ -166,7 +168,7 @@ const Cart = () => {
           </div>
           {showPayPal ? (
             <div className={styles.paymentMethods}>
-              <button className={styles.payButton}>CASH ON DELIVERY</button>
+              <button className={styles.payButton} onClick={() => setCashPayment(true)}>CASH ON DELIVERY</button>
               <PayPalScriptProvider
                 options={{
                   "client-id":
@@ -189,6 +191,9 @@ const Cart = () => {
           )}
         </div>
       </div>
+      {cashPayment && (
+        <CashPayment total={cart.total} createOrder={createOrder} />
+      )}
     </div>
   );
 };
