@@ -43,7 +43,7 @@ const Product = ({ pizza }: IProps) => {
 
   const handleClick = () => {
     dispatch(addProduct({ ...pizza, extras, price, quantity }));
-    toast.success("Added to cart!");
+    toast("Added to cart!");
   };
 
   return (
