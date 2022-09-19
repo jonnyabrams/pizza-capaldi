@@ -15,6 +15,7 @@ const Admin = ({ orders, products }: IProps) => {
   // reassign orders and products so can delete them from UI as well as DB
   const [pizzaList, setPizzaList] = useState(products);
   const [orderList, setOrderList] = useState(orders);
+  const status = ["preparing", "on the way", "delivered"];
 
   const handleDelete = async (id: Types.ObjectId) => {
     try {
@@ -24,6 +25,24 @@ const Admin = ({ orders, products }: IProps) => {
       console.log(error);
     }
   };
+
+  const handleStatus = async (id: Types.ObjectId) => {
+    const item = orderList.filter((order) => order._id === id)[0];
+    const currentStatus = item.status;
+
+    try {
+      const res = await axios.put("http://localhost:3000/api/orders/" + id, {
+        status: currentStatus + 1,
+      });
+      setOrderList([
+        res.data,
+        ...orderList.filter((order) => order._id !== id),
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.item}>
@@ -86,10 +105,12 @@ const Admin = ({ orders, products }: IProps) => {
                 <td>{order._id.slice(0, 5)}...</td>
                 <td>{order.customer}</td>
                 <td>£{order.total}</td>
-                <td>{order.method === 0 ? (<span>cash</span>) : (<span>PayPal</span>)}</td>
-                <td>preparing</td>
                 <td>
-                  <button>Next Stage</button>
+                  {order.method === 0 ? <span>cash</span> : <span>PayPal</span>}
+                </td>
+                <td>{status[order.status]}</td>
+                <td>
+                  <button onClick={() => handleStatus(order._id)}>Next Stage</button>
                 </td>
               </tr>
             </tbody>
