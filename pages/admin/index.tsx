@@ -12,6 +12,7 @@ interface IProps {
 }
 
 const Admin = ({ orders, products }: IProps) => {
+  // reassign orders and products so can delete them from UI as well as DB
   const [pizzaList, setPizzaList] = useState(products);
   const [orderList, setOrderList] = useState(orders);
 
@@ -79,18 +80,20 @@ const Admin = ({ orders, products }: IProps) => {
               <th>Action</th>
             </tr>
           </tbody>
-          <tbody>
-            <tr className={styles.trTitle}>
-              <td>{"1927374987290107".slice(0, 5)}...</td>
-              <td>John Doe</td>
-              <td>£20</td>
-              <td>paid</td>
-              <td>preparing</td>
-              <td>
-                <button>Next Stage</button>
-              </td>
-            </tr>
-          </tbody>
+          {orderList.map((order) => (
+            <tbody key={order._id}>
+              <tr className={styles.trTitle}>
+                <td>{order._id.slice(0, 5)}...</td>
+                <td>{order.customer}</td>
+                <td>£{order.total}</td>
+                <td>{order.method === 0 ? (<span>cash</span>) : (<span>PayPal</span>)}</td>
+                <td>preparing</td>
+                <td>
+                  <button>Next Stage</button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
         </table>
       </div>
     </div>
