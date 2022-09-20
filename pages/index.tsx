@@ -2,7 +2,10 @@ import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import Add from "../components/Add";
+import AddButton from "../components/AddButton";
 
 import Featured from "../components/Featured";
 import PizzaList from "../components/PizzaList";
@@ -15,6 +18,8 @@ interface IProps {
 }
 
 const Home: NextPage<IProps> = ({ pizzaList, admin }: IProps) => {
+  const [addModalClosed, setAddModalClosed] = useState(true);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,8 +29,9 @@ const Home: NextPage<IProps> = ({ pizzaList, admin }: IProps) => {
       </Head>
       <Toaster position="top-center" reverseOrder={false} />
       <Featured />
-      {admin && <span>Hello</span>}
+      {admin && <AddButton setAddModalClosed={setAddModalClosed} />}
       <PizzaList pizzaList={pizzaList} />
+      {!addModalClosed && <Add setAddModalClosed={setAddModalClosed} />}
     </div>
   );
 };
