@@ -11,9 +11,10 @@ import { IPizza } from "../types";
 
 interface IProps {
   pizzaList: IPizza[];
+  admin: boolean;
 }
 
-const Home: NextPage<IProps> = ({ pizzaList }: IProps) => {
+const Home: NextPage<IProps> = ({ pizzaList, admin }: IProps) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -23,6 +24,7 @@ const Home: NextPage<IProps> = ({ pizzaList }: IProps) => {
       </Head>
       <Toaster position="top-center" reverseOrder={false} />
       <Featured />
+      {admin && <span>Hello</span>}
       <PizzaList pizzaList={pizzaList} />
     </div>
   );
@@ -30,11 +32,19 @@ const Home: NextPage<IProps> = ({ pizzaList }: IProps) => {
 
 export default Home;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (ctx: any) => {
+  //ctx = context
+  const myCookie = ctx.req?.cookies || "";
+  let admin = false;
+
+  if (myCookie.token === process.env.TOKEN) {
+    admin = true;
+  }
   const res = await axios.get("http://localhost:3000/api/pizzas");
   return {
     props: {
       pizzaList: res.data,
+      admin,
     },
   };
 };
