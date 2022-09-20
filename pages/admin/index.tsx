@@ -110,7 +110,9 @@ const Admin = ({ orders, products }: IProps) => {
                 </td>
                 <td>{status[order.status]}</td>
                 <td>
-                  <button onClick={() => handleStatus(order._id)}>Next Stage</button>
+                  <button onClick={() => handleStatus(order._id)}>
+                    Next Stage
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -121,7 +123,19 @@ const Admin = ({ orders, products }: IProps) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (ctx: any) => {
+  // ctx is context
+  const myCookie = ctx.req?.cookies || "";
+
+  if (myCookie.token !== process.env.TOKEN) {
+    // nextjs redirect method
+    return {
+      redirect: {
+        destination: "/admin/login",
+        permanent: false,
+      },
+    };
+  }
   const productRes = await axios.get("http://localhost:3000/api/pizzas");
   const orderRes = await axios.get("http://localhost:3000/api/orders");
 
