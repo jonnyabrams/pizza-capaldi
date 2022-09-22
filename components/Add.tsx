@@ -28,7 +28,9 @@ const Add = ({ setAddModalClosed }: IProps) => {
   };
 
   const handleExtra = (e: MouseEvent<HTMLButtonElement>) => {
-    setExtraOptions((prev: any) => [...prev, extra]);
+    setExtraOptions((prev: any) => prev ? [...prev, extra] : [extra]);
+    console.log(extraOptions)
+    console.log(extra)
   };
 
   const changePrice = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -40,8 +42,8 @@ const Add = ({ setAddModalClosed }: IProps) => {
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     // make this into a function to incorporate next line, which fixes TS "possibly null" error
     if (!e.target.files) return;
-    setFile(e.target.files[0])
-  }
+    setFile(e.target.files[0]);
+  };
 
   return (
     <div className={styles.container}>
@@ -90,7 +92,7 @@ const Add = ({ setAddModalClosed }: IProps) => {
               className={`${styles.input} ${styles.inputSm}`}
               type="text"
               placeholder="Item"
-              name="text"
+              name="topping"
               onChange={handleExtraInput}
             />
             <input
@@ -106,7 +108,9 @@ const Add = ({ setAddModalClosed }: IProps) => {
           </div>
           <div className={styles.extraItems}>
             {extraOptions.map((option) => (
-              <span key={option.topping}>{option.topping}</span>
+              <span key={option.topping} className={styles.extraItem}>
+                {option.topping}
+              </span>
             ))}
           </div>
         </div>
