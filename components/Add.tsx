@@ -8,6 +8,7 @@ import {
 import { useRouter } from "next/router";
 import axios from "axios";
 
+import { IExtras } from "../types";
 import styles from "../styles/Add.module.css";
 
 interface IProps {
@@ -19,7 +20,7 @@ const Add = ({ setAddModalClosed }: IProps) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [prices, setPrices] = useState<number[]>([]);
-  const [extraOptions, setExtraOptions] = useState<{}[]>([]);
+  const [extraOptions, setExtraOptions] = useState<IExtras[]>([]);
   const [extra, setExtra] = useState({});
 
   const handleExtraInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ const Add = ({ setAddModalClosed }: IProps) => {
   };
 
   const handleExtra = (e: MouseEvent<HTMLButtonElement>) => {
-    setExtraOptions((prev) => [...prev, extra]);
+    setExtraOptions((prev: any) => [...prev, extra]);
   };
 
   const changePrice = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -102,6 +103,11 @@ const Add = ({ setAddModalClosed }: IProps) => {
             <button className={styles.extraButton} onClick={handleExtra}>
               Add
             </button>
+          </div>
+          <div className={styles.extraItems}>
+            {extraOptions.map((option) => (
+              <span key={option.topping}>{option.topping}</span>
+            ))}
           </div>
         </div>
       </div>
