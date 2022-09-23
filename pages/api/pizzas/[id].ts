@@ -8,7 +8,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     method,
     query: { id },
+    cookies,
   } = req;
+
+  const token = cookies.token;
 
   await dbConnect();
 
@@ -22,6 +25,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (method === "PUT") {
+    if (!token || token !== process.env.token) {
+      return res.status(401).json("You are not authenticated");
+    }
     try {
       const pizza = await Pizza.create(req.body);
       res.status(201).json(pizza);
@@ -31,6 +37,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (method === "DELETE") {
+    if (!token || token !== process.env.token) {
+      return res.status(401).json("You are not authenticated");
+    }
     try {
       await Pizza.findByIdAndDelete(id);
       res.status(201).json("Product deleted");
