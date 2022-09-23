@@ -5,7 +5,9 @@ import dbConnect from "../../../utils/mongo";
 import Pizza from "../../../models/Pizza";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method } = req;
+  const { method, cookies } = req;
+
+  const token = cookies.token;
 
   await dbConnect();
 
@@ -19,6 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (method === "POST") {
+    if (!token || token !== process.env.token) {
+      return res.status(401).json("You are not authenticated")
+    }
     try {
       const pizza = await Pizza.create(req.body);
       res.status(201).json(pizza);
