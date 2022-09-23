@@ -28,9 +28,9 @@ const Add = ({ setAddModalClosed }: IProps) => {
   };
 
   const handleExtra = (e: MouseEvent<HTMLButtonElement>) => {
-    setExtraOptions((prev: any) => prev ? [...prev, extra] : [extra]);
-    console.log(extraOptions)
-    console.log(extra)
+    setExtraOptions((prev: any) => (prev ? [...prev, extra] : [extra]));
+    console.log(extraOptions);
+    console.log(extra);
   };
 
   const changePrice = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -45,6 +45,8 @@ const Add = ({ setAddModalClosed }: IProps) => {
     setFile(e.target.files[0]);
   };
 
+  const handleCreate = async () => {};
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -58,7 +60,11 @@ const Add = ({ setAddModalClosed }: IProps) => {
         </div>
         <div className={styles.item}>
           <label className={styles.label}>Title</label>
-          <input type="text" onChange={(e) => setTitle(e.target.value)} />
+          <input
+            className={styles.input}
+            type="text"
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
         <div className={styles.item}>
           <label className={styles.label}>Description</label>
@@ -66,24 +72,26 @@ const Add = ({ setAddModalClosed }: IProps) => {
         </div>
         <div className={styles.item}>
           <label className={styles.label}>Prices</label>
-          <input
-            className={`${styles.input} ${styles.inputSm}`}
-            type="number"
-            placeholder="Small"
-            onChange={(e) => changePrice(e, 0)}
-          />
-          <input
-            className={`${styles.input} ${styles.inputSm}`}
-            type="number"
-            placeholder="Medium"
-            onChange={(e) => changePrice(e, 1)}
-          />
-          <input
-            className={`${styles.input} ${styles.inputSm}`}
-            type="number"
-            placeholder="Large"
-            onChange={(e) => changePrice(e, 2)}
-          />
+          <div className={styles.priceContainer}>
+            <input
+              className={`${styles.input} ${styles.inputSm}`}
+              type="number"
+              placeholder="Small"
+              onChange={(e) => changePrice(e, 0)}
+            />
+            <input
+              className={`${styles.input} ${styles.inputSm}`}
+              type="number"
+              placeholder="Medium"
+              onChange={(e) => changePrice(e, 1)}
+            />
+            <input
+              className={`${styles.input} ${styles.inputSm}`}
+              type="number"
+              placeholder="Large"
+              onChange={(e) => changePrice(e, 2)}
+            />
+          </div>
         </div>
         <div className={styles.item}>
           <label className={styles.label}>Extra</label>
@@ -114,6 +122,9 @@ const Add = ({ setAddModalClosed }: IProps) => {
             ))}
           </div>
         </div>
+        <button className={styles.addButton} onClick={handleCreate}>
+          Create
+        </button>
       </div>
     </div>
   );
