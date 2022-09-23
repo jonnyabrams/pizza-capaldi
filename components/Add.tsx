@@ -29,8 +29,6 @@ const Add = ({ setAddModalClosed }: IProps) => {
 
   const handleExtra = (e: MouseEvent<HTMLButtonElement>) => {
     setExtraOptions((prev: any) => (prev ? [...prev, extra] : [extra]));
-    console.log(extraOptions);
-    console.log(extra);
   };
 
   const changePrice = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -45,7 +43,32 @@ const Add = ({ setAddModalClosed }: IProps) => {
     setFile(e.target.files[0]);
   };
 
-  const handleCreate = async () => {};
+  const handleCreate = async () => {
+    const data = new FormData();
+    file && data.append("file", file);
+    // indicate uploading folder (in this case 'uploads')
+    data.append("upload_preset", "uploads");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dmmogtbko/image/upload",
+        data
+      );
+
+      const { url } = uploadRes.data;
+      const newProduct = {
+        title,
+        desc,
+        prices,
+        extraOptions,
+        img: url,
+      };
+
+      await axios.post("http://localhost:3000/api/pizzas", newProduct);
+      setAddModalClosed(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={styles.container}>
